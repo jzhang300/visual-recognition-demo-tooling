@@ -1,0 +1,50 @@
+.CDR-Detail {
+    padding: 1rem;
+}
+
+.CDR-Name {
+    font-size: x-large;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+.CDR-ID {
+    font-family: Courier New, Courier, monospace;
+}
+
+.CDR-Owner {
+    padding-top: 1rem;
+    font-size: small;
+    font-family: Courier New, Courier, monospace;
+}
+
+.CDR-Created  {
+    padding: 1rem;
+}
+
+.CDR-Status {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.ready {
+    color: white;
+    background-color: green;
+}
+
+.failed {
+    color: black;
+    background-color: red;
+}
+
+.training {
+    color: black;
+    background-color: yellow;
+}
+
+.CDR-Classes {
+    list-style-type: none;
+}
+
+.CDR-Class {
+    padding-bottom: 1rem;
+}

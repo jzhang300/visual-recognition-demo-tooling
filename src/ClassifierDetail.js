@@ -51,7 +51,7 @@ class ClassifierDetail extends Component {
       {JSON.stringify(this.state.payload,null,2)}
         </pre> : <pre>Nope</pre>}
       {this.state.payload.classes ?
-          <ClassifierDetailRow status={this.state.payload.status} subclasses={this.state.payload.classes} name={this.state.payload.name} classifier_id={this.state.payload.classifier_id} owner={this.state.payload.owner} created={this.state.created_at}/> : ''}
+       <ClassifierDetailRow api_key={this.props.params.api_key} status={this.state.payload.status} subclasses={this.state.payload.classes} name={this.state.payload.name} classifier_id={this.state.payload.classifier_id} owner={this.state.payload.owner} created={this.state.created_at}/> : ''}
     </div>);
   }
 }

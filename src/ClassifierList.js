@@ -21,8 +21,8 @@ class ClassifierList extends Component {
     this.state = { classifiers: [], error: null};
   }
 
-  componentDidMount() {
-    let url = 'https://gateway-a.watsonplatform.net/visual-recognition/api/v3/classifiers';
+  loadData() {
+        let url = 'https://gateway-a.watsonplatform.net/visual-recognition/api/v3/classifiers';
     let params = {api_key: this.props.params.api_key, version: "2016-05-19"};
     console.log('started fetch');
     this.serverRequest = jquery.get(url, params).done(function (result) {
@@ -35,18 +35,32 @@ class ClassifierList extends Component {
     }.bind(this));
   }
 
+  componentDidMount() {
+    this.loadData();
+  }
+
   componentWillUnmount() {
     this.serverRequest.abort();
   }
-
+  onChange(e) {
+    this.setState({filter: e.target.value});
+  }
   render() {
     let self = this;
     return (<div className="ListBody">
       <div className="List-header">
-        <h1>{this.props.params.api_key}</h1>
+            <h1>{this.props.params.api_key}<button onClick={this.loadData.bind(this)}>reload</button></h1>
+	    <input type="text" onChange={this.onChange.bind(this)} placeholder="Search"/>
       </div>
       <ul className="ListList">
-        {this.state.classifiers.map(function(item) {
+            {this.state.classifiers.filter(function(item) {
+	      if (self.state.filter && self.state.filter.length) {
+		return item.name.match(self.state.filter) || item.classifier_id.match(self.state.filter);
+	      } else {
+		return true;
+	      }
+	    }).map(function(item) {
+	      
           return (<li key={item.classifier_id}><ClassifierShortDetail api_key={self.props.params.api_key} name={item.name} classifier_id={item.classifier_id} status={item.status}/></li>);
         })}
       </ul>

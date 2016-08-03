@@ -16,7 +16,10 @@ class ClassifierDetailRow extends Component {
       {this.props.subclasses.map(function(item) {
         return (<li className="CDR-Class" key={item.class}>{item.class}</li>);
       })}
-      </ul>
+	    </ul>
+	    <pre>
+	    curl -X "DELETE" "https://gateway-a.watsonplatform.net/visual-recognition/api/v3/classifiers/{this.props.classifier_id}?api_key={this.props.api_key}&version=2016-05-20"
+	    </pre>
     </div>)
   }
 }
@@ -26,7 +29,7 @@ class ClassifierDetail extends Component {
     super();
     this.state = { payload: {}};
   }
-  componentDidMount() {
+  loadData() {
     let url = 'https://gateway-a.watsonplatform.net/visual-recognition/api/v3/classifiers/'+this.props.params.classifier_id;
     let params = {api_key: this.props.params.api_key, version: "2016-05-19"};
     console.log('started fetch');
@@ -39,6 +42,9 @@ class ClassifierDetail extends Component {
       });
     }.bind(this));
   }
+  componentDidMount() {
+    this.loadData();
+  }
 
   componentWillUnmount() {
     this.serverRequest.abort();
@@ -46,13 +52,15 @@ class ClassifierDetail extends Component {
 
   render() {
     let pre_style={ display: 'none'};
+    let self = this;
     return (<div>
+	    <button onclick={self.loadData.bind(self)}>Reload</button>
       {this.state.payload ? <pre style={pre_style}>
       {JSON.stringify(this.state.payload,null,2)}
-        </pre> : <pre>Nope</pre>}
+       </pre> : <pre>Nope</pre>}
       {this.state.payload.classes ?
        <ClassifierDetailRow api_key={this.props.params.api_key} status={this.state.payload.status} subclasses={this.state.payload.classes} name={this.state.payload.name} classifier_id={this.state.payload.classifier_id} owner={this.state.payload.owner} created={this.state.created_at}/> : ''}
-    </div>);
+	    </div>);
   }
 }
 
